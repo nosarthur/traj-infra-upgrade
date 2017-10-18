@@ -22,6 +22,6 @@ old | new
 
 |old | new
 | --- | --- 
-|<pre>from schrodinger.trajectory.desmondsimulation import ChorusSimulation<br><br>tr = ChorusSimulation(cms_filename, trajectory_directory)<br>for frame_index in xrange(tr.total_frame):<br>    fr = tr.getFrame(frame_index) </pre> | <pre>import schrodinger.application.desmond.packages.traj as traj<br><br>tr = traj.read_traj(trajectory_directory)<br>for fr in tr:<br>    fr </pre>
+|<pre>from schrodinger.trajectory.desmondsimulation import ChorusSimulation<br><br>csim = ChorusSimulation(cms_filename, trajectory_directory)<br>for frame_index in xrange(tr.total_frame):<br>    fr = csim.getFrame(frame_index) </pre> | <pre>import schrodinger.application.desmond.packages.traj as traj<br><br>tr = traj.read_traj(trajectory_directory)<br>for fr in tr:<br>    fr </pre>
 
 
