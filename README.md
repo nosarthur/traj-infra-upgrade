@@ -1,5 +1,16 @@
 # traj-infra
-Examples of transition to new trajectory infrastructure.
+Examples of transition to new trajectory infrastructure. 
+I will keep updating this page as more code is refactored.
+
+Roughly speaking, here are the correspondences:
+
+old | new 
+--- | --- 
+`DesmondSimulation` or `ChorusSimulation` object | cms_model and trajectory object
+`_DesmondFrame` object | `Frame` object
+
+* The new frame object is different from the old one. 
+* The new trajectory object is a python list of `Frame` objects
 
  | | old | new 
 | --- | --- | --- 
