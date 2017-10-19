@@ -1,4 +1,10 @@
 # traj-infra
+
+The new trajectory infrastructure will do better on
+
+* virtual sites (pseudo atoms)
+* triclinic lattice
+
 Examples of transition to new trajectory infrastructure. 
 I will keep updating this page as more code is refactored.
 
