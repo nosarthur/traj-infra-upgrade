@@ -1,12 +1,15 @@
 # traj-infra
+Examples of transition to new trajectory infrastructure. 
+I will keep updating this page as more code is refactored.
+
+## introduction
 
 The new trajectory infrastructure will do better on
 
 * virtual sites (pseudo atoms)
 * triclinic lattice
 
-Examples of transition to new trajectory infrastructure. 
-I will keep updating this page as more code is refactored.
+
 
 Roughly speaking, here are the correspondences:
 
@@ -16,7 +19,12 @@ old | new
 `_DesmondFrame` object | `traj.Frame` object
 desmond.generic_trajectory | python list of `traj.Frame` objects
 
+Note that 
+
 * The new frame object is different from the old one. 
+
+
+## examples 
 
 ### access structure
 | old | new 
