@@ -12,12 +12,11 @@ Roughly speaking, here are the correspondences:
 
 old | new 
 --- | --- 
-`DesmondSimulation` or `ChorusSimulation` object | cms_model and trajectory object
-`_DesmondFrame` object | `Frame` object
+`DesmondSimulation` or `ChorusSimulation` object | `Cms` object and trajectory object
+`_DesmondFrame` object | `traj.Frame` object
+desmond.generic_trajectory | python list of `traj.Frame` objects
 
 * The new frame object is different from the old one. 
-* The new trajectory object is a python list of `Frame` objects
-
 
 ### access structure
 | old | new 
@@ -28,6 +27,7 @@ old | new
 
 |old | new
 | --- | --- 
-|<pre>from schrodinger.trajectory.desmondsimulation import ChorusSimulation<br><br>csim = ChorusSimulation(cms_filename, trajectory_directory)<br>for frame_index in xrange(tr.total_frame):<br>    fr = csim.getFrame(frame_index) </pre> | <pre>import schrodinger.application.desmond.packages.traj as traj<br><br>tr = traj.read_traj(trajectory_directory)<br>for fr in tr:<br>    fr </pre>
+|<pre>from schrodinger.trajectory.desmondsimulation import ChorusSimulation<br><br>csim = ChorusSimulation(cms_filename, trajectory_directory)<br>for frame_index in xrange(csim.total_frame):<br>    fr = csim.getFrame(frame_index) </pre> | <pre>import schrodinger.application.desmond.packages.traj as traj<br><br>tr = traj.read_traj(trajectory_directory)<br>for fr in tr:<br>    fr </pre>
+|<pre>from schrodinger.infra import desmond<br>trj = desmond.generic_trajectory(TRJ_FILE)</pre>|
 
 
