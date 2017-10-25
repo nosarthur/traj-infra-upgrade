@@ -63,3 +63,42 @@ for fr in tr:
     # what needs to be done on the protein structure
     ...
 ```
+
+### try avoid unwrap coordinates around periodic boundary conditions yourself
+
+There are mechanisms in the new trajectory infrastructure to do these unwrapping for you. The relevant analyzer classes are
+
+* basic geometric operations                                                    
+    * `Angle`                                                                   
+    * `Distance`                                                                
+    * `Torsion`                                                                 
+    * `Vector`                                                                  
+* `CenterOf`                                                                    
+    * `Centroid`                                                                
+    * `CoC`: center of charge                                                   
+    * `Com`: center of mass  
+    
+    
+You can even measure geometric quantity between (among) center of mass objects/atoms (see example below), etc. 
+
+```python
+from schrodinger.application.desmond.packages import analysis                      
+from schrodinger.application.desmond.packages import traj                          
+from schrodinger.application.desmond.packages import topo 
+
+# load data                                                                        
+msys_model, cms_model = topo.read_cms(FNAME)                                       
+tr = traj.read_traj(TRJ_FNAME) 
+
+# define analyzers                                                                 
+analyzer1 = analysis.Com(msys_model, cms_model, asl=my_asl)                      
+ana_vector = analysis.Vector(msys_model, cms_model, 1, 10)
+analyzer3 = analysis.ProtLigInter(msys_model, cms_model, 'protein', 'm.n 2')
+s5 = analysis.Com(self.msys_model, self.cms_model, asl='not atom.num 17')  # this doesn't need to be passed to analysis.analyze
+dist_com_atm = analysis.Distance(self.msys_model, self.cms_model, s5, 10)
+                                                                                   
+# compute result                                                                   
+results = analysis.analyze(tr, analyzer1, ana_vector, analyzer3, dist_com_atm)  
+```
+
+If you have to unwrap yourself, use `analysis.Pbc` class.
