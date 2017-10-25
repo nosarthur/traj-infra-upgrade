@@ -103,7 +103,7 @@ results = analysis.analyze(tr, analyzer1, ana_vector, analyzer3, dist_com_atm)
 
 If you have to unwrap yourself, use `analysis.Pbc` class.
 
-Note that the [circular mean algorithm](https://en.wikipedia.org/wiki/Center_of_mass#Systems_with_periodic_boundary_conditions) is used to calculate geometri centers.
+Note that the [circular mean algorithm](https://en.wikipedia.org/wiki/Center_of_mass#Systems_with_periodic_boundary_conditions) is used to calculate geometric centers.
 Thus it will fail if both of the following conditions apply
 * the selected atoms do not form a blob-like shape (e.g., dumbbell)
 * the selected atoms have a spatial extent comparable to the simulation box
