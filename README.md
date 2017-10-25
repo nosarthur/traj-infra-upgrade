@@ -40,7 +40,7 @@ Note that
 
 ## paradigms
 
-### extract structure and per frame update coordinates (instead of per frame extract structure and update coordinates)
+### extract structure once and per frame update coordinates (instead of per frame extract structure and update coordinates)
 Note that although one can get the full system ct per frame in new trajectory infrastructure, it is likely the inefficient approach. In most cases, the real application is not to track the full system ct over the frames, but track some specific group of atoms or molecules over the frames. In these situations, it is more efficient to 
 
 * extract the structure once
