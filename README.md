@@ -2,6 +2,26 @@
 Examples of transition to new trajectory infrastructure. 
 I will keep updating this page as more code is ported.
 
+## module changes
+
+The modules to be deprecated are
+```python
+schrodinger.trajectory
+schrodinger.infra.desmond
+schrodinger.application.desmond.destro
+schrodinger.application.desmond.periodicfix
+schrodinger.application.desmond.framesettools
+schrodinger.application.desmond.generictrajectory
+```
+
+The replacements are
+```python
+schrodinger.application.desmond.packages.topo 
+schrodinger.application.desmond.packages.traj                          
+schrodinger.application.desmond.packages.analysis      
+(the new destro)
+```
+
 ## introduction
 
 The new trajectory infrastructure will do better with
@@ -20,9 +40,6 @@ desmond.generic_trajectory or framesettools.Frameset | python list of `traj.Fram
 Note that 
 
 * The new frame object is different from the old one. 
-
-
-### atom AIDs and atom GIDs
 
 ### minimum examples
 
@@ -43,9 +60,7 @@ tr = traj.read_traj(trajectory_directory)
 To do some analysis using existing analyzers
 
 ```python
-from schrodinger.application.desmond.packages import analysis                      
-from schrodinger.application.desmond.packages import traj                          
-from schrodinger.application.desmond.packages import topo 
+from schrodinger.application.desmond.packages import analysis, traj, topo                        
 
 # load data                                                                        
 msys_model, cms_model = topo.read_cms(FNAME)                                       
@@ -62,24 +77,25 @@ results = analysis.analyze(tr, analyzer1, analyzer2, )
 The `results` is a list of the analyzer's output. 
 Each output is a list of results for each trajectory frame.
 
-## module changes
+### atom AIDs and atom GIDs
 
-The modules to be deprecated are
-```python
-schrodinger.trajectory
-schrodinger.infra.desmond
-schrodinger.application.desmond.destro
-schrodinger.application.desmond.periodicfix
-schrodinger.application.desmond.framesettools
-schrodinger.application.desmond.generictrajectory
-```
+In MD simulation, there are two types of atoms
 
-The replacements are
-```python
-schrodinger.application.desmond.packages.topo 
-schrodinger.application.desmond.packages.traj                          
-schrodinger.application.desmond.packages.analysis                      
-```
+* physical atoms
+* pseudo atoms (virtual sites): They are used to model forcefield better.
+
+In Maestro, the pseudo atoms are not displayed.
+
+To keep track of the atoms, there are two types of IDs
+
+* AID stands for Atom ID, defined as the atom index in the full system ct (it is the same as `cms_model.atom.index`).
+* GID stands for Global ID, defined as the particle index in the Desmond internal particle array.
+
+Note that pseudo atoms do not have AID.
+
+To access a particle's coordinate in the trajectory (i.e., the `traj.Frame` object), you have to use GID. We have functions to map AID to GID in the `topo` module.
+
+ASL and SMARTS evaluations only return AIDs. In other words, they only select physical atoms.
 
 ## examples 
 
