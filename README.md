@@ -52,12 +52,15 @@ msys_model, cms_model = topo.read_cms(FNAME)
 tr = traj.read_traj(TRJ_FNAME) 
 
 # define analyzers                                                                 
-analyzer1 = analysis.Com(msys_model, cms_model, asl=my_asl)                      
+analyzer1 = analysis.Com(msys_model, cms_model, asl='m.n 1')                      
 analyzer2 = analysis.ProtLigInter(msys_model, cms_model, 'protein', 'm.n 2')
                                                                                    
 # compute result                                                                   
 results = analysis.analyze(tr, analyzer1, analyzer2, )  
 ```
+
+The `results` is a list of the analyzer's output. 
+Each output is a list of results for each trajectory frame.
 
 ## module changes
 
