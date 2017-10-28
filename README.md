@@ -24,7 +24,7 @@ schrodinger.application.desmond.packages.analysis
 
 ## introduction
 
-The new trajectory infrastructure will do better with
+The new trajectory infrastructure will do better with handling
 
 * virtual sites (pseudo atoms)
 * triclinic lattice
@@ -47,7 +47,7 @@ To read the cms input file
 ```python
 import schrodinger.application.desmond.packages.topo as topo
 
-msys_model, cms_model = topo.read_cms(model_fname)
+msys_model, cms_model = topo.read_cms(cms_file_name)
 ```
 
 To read a trajectory
