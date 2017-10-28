@@ -23,7 +23,15 @@ Note that
 
 * The new frame object is different from the old one. 
 
-## modules to be deprecated
+```python
+import schrodinger.application.desmond.packages.topo as topo
+
+_, cms_model = topo.read_cms(model_fname)
+```
+
+## module changes
+
+The modules to be deprecated are
 ```python
 schrodinger.trajectory
 schrodinger.infra.desmond
@@ -31,6 +39,13 @@ schrodinger.application.desmond.destro
 schrodinger.application.desmond.periodicfix
 schrodinger.application.desmond.framesettools
 schrodinger.application.desmond.generictrajectory
+```
+
+The replacements are
+```python
+schrodinger.application.desmond.packages.topo 
+schrodinger.application.desmond.packages.traj                          
+schrodinger.application.desmond.packages.analysis                      
 ```
 
 ## examples 
@@ -47,16 +62,19 @@ schrodinger.application.desmond.generictrajectory
 |<pre>from schrodinger.trajectory.desmondsimulation import ChorusSimulation<br><br>csim = ChorusSimulation(cms_filename, trajectory_directory)<br>for frame_index in xrange(csim.total_frame):<br>    fr = csim.getFrame(frame_index)<br>    st = fr.getStructure()</pre> | <pre>import schrodinger.application.desmond.packages.traj as traj<br>import schrodinger.application.desmond.packages.topo as topo<br><br>_, cms_model = topo.read_cms(model_fname)<br>tr = traj.read_traj(trajectory_directory)<br>for fr in tr:<br>    st = topo.update_fsys_ct(cms_model, fr).fsys_ct<br>    # you can use st = topo.update_fsys_ct(cms_model, fr) as well<br>    # the properties of cms_model and its fsys_ct are in sync  </pre>
 |<pre>from schrodinger.infra import desmond<br><br>tr = desmond.generic_trajectory(TRJ_FILE)<br>dt = tr.frame_time(1) - tr.frame_time(0)</pre>| <pre>import schrodinger.application.desmond.packages.traj as traj<br><br>tr = traj.read_traj(trajectory_directory)<br>dt = tr[1].time - tr[0].time</pre>
 
-Note that it is usually better to keep track of atoms using the GIDs instead of extracting structures frame by frame.
-See examples below.
+Note that 
+
+* although there is a correspondence of `st = fr.getStructure()`, it is likely not the way to go. See paradigms below.
 
 ## paradigms
 
-### extract structure once and per frame update coordinates (instead of per frame extract structure and update coordinates)
-Note that although one can get the full system ct per frame in new trajectory infrastructure, it is likely the inefficient approach. In most cases, the real application is not to track the full system ct over the frames, but track some specific group of atoms or molecules over the frames. In these situations, it is more efficient to 
+### extract structure once and per frame update coordinates instead of per frame update full system ct and extract structure 
+Note that although one can get the full system ct per frame in new trajectory infrastructure, it is likely the inefficient approach. In most cases, the demand is not to track the full system ct over the frames, but track some specific group of atoms or molecules over the frames. In these situations, it is more efficient to 
 
 * extract the structure once
 * keep updating the coordinates of the structure frame by frame
+
+If the analysis is fully geometric, then the structure extraction can be avoided as well.
 
 Here is an example
 
