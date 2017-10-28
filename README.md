@@ -9,8 +9,6 @@ The new trajectory infrastructure will do better with
 * virtual sites (pseudo atoms)
 * triclinic lattice
 
-
-
 Roughly speaking, here are the correspondences:
 
 old | new 
@@ -23,10 +21,42 @@ Note that
 
 * The new frame object is different from the old one. 
 
+
+### atom AIDs and atom GIDs
+
+### minimum examples
+
+To read the cms input file
 ```python
 import schrodinger.application.desmond.packages.topo as topo
 
-_, cms_model = topo.read_cms(model_fname)
+msys_model, cms_model = topo.read_cms(model_fname)
+```
+
+To read a trajectory
+```python
+import schrodinger.application.desmond.packages.traj as traj
+
+tr = traj.read_traj(trajectory_directory)
+```
+
+To do some analysis using existing analyzers
+
+```python
+from schrodinger.application.desmond.packages import analysis                      
+from schrodinger.application.desmond.packages import traj                          
+from schrodinger.application.desmond.packages import topo 
+
+# load data                                                                        
+msys_model, cms_model = topo.read_cms(FNAME)                                       
+tr = traj.read_traj(TRJ_FNAME) 
+
+# define analyzers                                                                 
+analyzer1 = analysis.Com(msys_model, cms_model, asl=my_asl)                      
+analyzer2 = analysis.ProtLigInter(msys_model, cms_model, 'protein', 'm.n 2')
+                                                                                   
+# compute result                                                                   
+results = analysis.analyze(tr, analyzer1, analyzer2, )  
 ```
 
 ## module changes
