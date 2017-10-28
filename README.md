@@ -155,6 +155,7 @@ for fr in tr:
     # what needs to be done on the protein structure
     ...
 ```
+
 ### try avoid unwrap coordinates around periodic boundary conditions yourself
 
 There are mechanisms in the new trajectory infrastructure to do these unwrapping for you. The relevant analyzer classes are
@@ -192,7 +193,7 @@ dist_com_atm = analysis.Distance(self.msys_model, self.cms_model, s5, 10)
 results = analysis.analyze(tr, analyzer1, ana_vector, analyzer3, dist_com_atm)  
 ```
 
-If you have to unwrap yourself, use `analysis.Pbc` class.
+If you have to unwrap yourself, use the `analysis.Pbc` class. Also note that the simulation box may change from frame to frame, e.g. in NPT systems. Thus the `analysis.Pbc` object needs to be updated frame by frame.
 
 Note that the [circular mean algorithm](https://en.wikipedia.org/wiki/Center_of_mass#Systems_with_periodic_boundary_conditions) is used to calculate geometric centers.
 Thus it will fail if both of the following conditions apply
