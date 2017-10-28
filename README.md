@@ -1,10 +1,10 @@
 # traj-infra
 Examples of transition to new trajectory infrastructure. 
-I will keep updating this page as more code is refactored.
+I will keep updating this page as more code is ported.
 
 ## introduction
 
-The new trajectory infrastructure will do better on
+The new trajectory infrastructure will do better with
 
 * virtual sites (pseudo atoms)
 * triclinic lattice
@@ -17,12 +17,21 @@ old | new
 --- | --- 
 `DesmondSimulation` or `ChorusSimulation` object | `Cms` object and trajectory object
 `_DesmondFrame` object | `traj.Frame` object
-desmond.generic_trajectory | python list of `traj.Frame` objects
+desmond.generic_trajectory or framesettools.Frameset | python list of `traj.Frame` objects
 
 Note that 
 
 * The new frame object is different from the old one. 
 
+## modules to be deprecated
+```python
+schrodinger.trajectory
+schrodinger.infra.desmond
+schrodinger.application.desmond.destro
+schrodinger.application.desmond.periodicfix
+schrodinger.application.desmond.framesettools
+schrodinger.application.desmond.generictrajectory
+```
 
 ## examples 
 
@@ -37,6 +46,9 @@ Note that
 | --- | --- 
 |<pre>from schrodinger.trajectory.desmondsimulation import ChorusSimulation<br><br>csim = ChorusSimulation(cms_filename, trajectory_directory)<br>for frame_index in xrange(csim.total_frame):<br>    fr = csim.getFrame(frame_index)<br>    st = fr.getStructure()</pre> | <pre>import schrodinger.application.desmond.packages.traj as traj<br>import schrodinger.application.desmond.packages.topo as topo<br><br>_, cms_model = topo.read_cms(model_fname)<br>tr = traj.read_traj(trajectory_directory)<br>for fr in tr:<br>    st = topo.update_fsys_ct(cms_model, fr).fsys_ct<br>    # you can use st = topo.update_fsys_ct(cms_model, fr) as well<br>    # the properties of cms_model and its fsys_ct are in sync  </pre>
 |<pre>from schrodinger.infra import desmond<br><br>tr = desmond.generic_trajectory(TRJ_FILE)<br>dt = tr.frame_time(1) - tr.frame_time(0)</pre>| <pre>import schrodinger.application.desmond.packages.traj as traj<br><br>tr = traj.read_traj(trajectory_directory)<br>dt = tr[1].time - tr[0].time</pre>
+
+Note that it is usually better to keep track of atoms using the GIDs instead of extracting structures frame by frame.
+See examples below.
 
 ## paradigms
 
@@ -64,6 +76,18 @@ for fr in tr:
     ...
 ```
 
+This is better than
+
+```python
+_, cms_model = topo.read_cms(cms_filename)
+tr = traj.read_traj(trajectory_directory)
+protein_aids = cms_model.select_atom(protein_asl)
+for fr in tr:
+    updated_cms = topo.update_fsys_ct(cms_model, fr)
+    protein_st = updated_cms.extract(protein_aids)
+    # what needs to be done on the protein structure
+    ...
+```
 ### try avoid unwrap coordinates around periodic boundary conditions yourself
 
 There are mechanisms in the new trajectory infrastructure to do these unwrapping for you. The relevant analyzer classes are
@@ -105,8 +129,25 @@ If you have to unwrap yourself, use `analysis.Pbc` class.
 
 Note that the [circular mean algorithm](https://en.wikipedia.org/wiki/Center_of_mass#Systems_with_periodic_boundary_conditions) is used to calculate geometric centers.
 Thus it will fail if both of the following conditions apply
-* the selected atoms do not form a blob-like shape (e.g., dumbbell)
 * the selected atoms have a spatial extent comparable to the simulation box
+* the selected atoms do not form a blob-like shape (e.g., dumbbell)
+
+### analyze all together instead of one by one
+If multiple analyzers can share some intermediate calculations, 
+there is a good chance that the new trajectory analysis framework calculates these intermediate results only once.
+Thus it is more efficient to call `analysis.analyze` with all analyzers together instead of calling `analysis.analyze` multiple times.
+
+Thus 
+```python
+results = analysis.analyze(tr, analyzer1, analyzer2, analyzer3)  
+```
+
+is better than
+```python
+result1 = analysis.analyze(tr, analyzer1)
+result2 = analysis.analyze(tr, analyzer2)
+result3 = analysis.analyze(tr, analyzer3)  
+```
 
 ## existing analyzers in the new trajectory infrastructure
 * basic geometric operations                                                    
