@@ -35,7 +35,7 @@ old | new
 --- | --- 
 `DesmondSimulation` or `ChorusSimulation` object | `Cms` object and trajectory object
 `_DesmondFrame` object | `traj.Frame` object
-desmond.generic_trajectory or framesettools.Frameset | python list of `traj.Frame` objects
+`schrodinger.infra.desmond.Trajectory` or `framesettools.Frameset` | python list of `traj.Frame` objects
 
 Note that 
 
