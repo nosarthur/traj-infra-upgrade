@@ -28,6 +28,7 @@ The new trajectory infrastructure will do better with handling
 
 * virtual sites (pseudo atoms)
 * triclinic lattice
+* wrapping around periodic boundary condition automatically
 
 Roughly speaking, here are the correspondences:
 
@@ -99,6 +100,18 @@ ASL and SMARTS evaluations only return AIDs. In other words, they only select ph
 
 ## examples 
 
+### read both cms and trajectory
+
+```python
+    msys_model, cms_model = topo.read_cms(args.cms_file)
+    trj_path = topo.find_traj_path(cms_model, os.path.dirname(args.cms_file))
+    if trj_path is None:
+        parser.error('Could not locate a trajectory directory for given CMS file')
+    try:
+        trj = traj.read_traj(trj_path)
+    except Exception as e:
+        parser.error('Cannot load trajectory file: %s' % e)
+```
 ### access structure
 | old | new 
 | --- | --- 
@@ -114,6 +127,14 @@ ASL and SMARTS evaluations only return AIDs. In other words, they only select ph
 Note that 
 
 * although there is a correspondence of `st = fr.getStructure()`, it is likely not the way to go. See paradigms below.
+* there are two ways to update the `cms_model`
+```python
+updated_cms = topo.update_fsys_ct(cms_model, fr)
+updated_cms = topo.update_cms(cms_model, fr)
+```
+
+The difference is that `update_cms` not only updates fsystem ct, but also component cts.
+
 
 ## paradigms
 
