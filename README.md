@@ -153,7 +153,7 @@ updated_cms = topo.update_fsys_ct(cms_model, fr)
 updated_cms = topo.update_cms(cms_model, fr)
 ```
 
-The difference is that `update_cms` not only updates fsystem ct, but also component cts.
+The difference is that `update_cms` not only updates full system ct, but also component cts.
 
 
 ## paradigms
