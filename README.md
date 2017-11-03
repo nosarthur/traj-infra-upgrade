@@ -28,7 +28,7 @@ The new trajectory infrastructure will do better with handling
 
 * virtual sites (pseudo atoms)
 * triclinic lattice
-* wrapping around periodic boundary condition automatically
+* unwrapping around periodic boundary condition automatically
 
 Roughly speaking, here are the correspondences:
 
@@ -94,7 +94,27 @@ To keep track of the atoms, there are two types of IDs
 
 Note that pseudo atoms do not have AID.
 
-To access a particle's coordinate in the trajectory (i.e., the `traj.Frame` object), you have to use GID. We have functions to map AID to GID in the `topo` module.
+To access a particle's coordinate in the trajectory (i.e., the `traj.Frame` object), you have to use GID. We have functions to map AID to GID in the `topo` module. For example,
+
+```python
+import schrodinger.application.desmond.packages.topo as topo
+import schrodinger.application.desmond.packages.traj as traj
+
+_, cms_model = topo.read_cms(cms_filename)
+protein_aids = cms_model.select_atom(protein_asl)
+protein_gids = topo.aids2gids(cms_model, protein_aids,
+                              include_pseudoatoms=False)
+tr = traj.read_traj(trajectory_directory)
+for fr in tr:
+    fr.pos(protein_gids)
+    fr.vel(protein_gids)
+```
+Both `traj.Frame.pos()` and `traj.Frame.vel()` return Nx3 numpy arrays. Without argument input, they return the positions or velocities of all atoms.
+
+Note that 
+
+* `vel()` may not exist. Default MD simulation does not save velocities, also the XTC format trajectories do not contain velocities.
+* If you get positions this way, then you need to worry about unwrapping around PBC yourself. If you don't want to unwrap yourself, try use the existing mechanisms in the infrastructure. See paradigms below.
 
 ASL and SMARTS evaluations only return AIDs. In other words, they only select physical atoms.
 
