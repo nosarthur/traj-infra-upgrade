@@ -1,0 +1,15 @@
+site_name: trajectory analysis
+site_description: last update 11.04.2017
+
+pages:
+    - Home: index.md
+    - Fundermentals: fundermentals.md
+    - Paradigms: paradigms.md
+theme: readthedocs
+markdown_extensions:
+    - pymdownx.github
+    - mdx_math:
+        enable_dollar_delimiter: True #for use of inline $..$
+
+extra_javascript: ['https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML']
+
