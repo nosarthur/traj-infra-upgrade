@@ -113,3 +113,18 @@ result3 = analysis.analyze(tr, analyzer3)
 ## testing
 
 The new trajectory modules are in the desmond package.
+Thus if you are working on a non-desmond repo and uses trajectory stuff, test has to be written in the following way
+
+* use `test_marker.require_product('desmond')`
+* lazy import the trajectory handling modules
+
+
+```python
+# Lazy import, in case desmond is not installed
+mf = None
+
+@pytest.fixture(scope='module', autouse=True)
+def import_my_file():
+    global mf
+    import my_file as mf
+```
