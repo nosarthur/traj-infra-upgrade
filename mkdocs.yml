@@ -1,4 +1,4 @@
-site_name: trajectory infrastructure upgrade
+site_name: traj infra upgrade
 site_description: last update 11.04.2017
 
 pages:
@@ -12,5 +12,7 @@ markdown_extensions:
     - mdx_math:
         enable_dollar_delimiter: True #for use of inline $..$
 
-extra_javascript: ['https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML']
+extra_css:
+    - extra.css
+
 
