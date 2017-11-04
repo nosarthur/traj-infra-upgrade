@@ -1,3 +1,16 @@
+## load both cms file and trajectory
+
+```python
+    msys_model, cms_model = topo.read_cms(args.cms_file)
+    trj_path = topo.find_traj_path(cms_model, os.path.dirname(args.cms_file))
+    if trj_path is None:
+        parser.error('Could not locate a trajectory directory for given CMS file')
+    try:
+        trj = traj.read_traj(trj_path)
+    except Exception as e:
+        parser.error('Cannot load trajectory file: %s' % e)
+```
+
 ## extract structure once and per frame update coordinates instead of per frame update full system ct and extract structure 
 Note that although one can get the full system ct per frame in new trajectory infrastructure, it is likely the inefficient approach. In most cases, the demand is not to track the full system ct over the frames, but track some specific group of atoms or molecules over the frames. In these situations, it is more efficient to 
 

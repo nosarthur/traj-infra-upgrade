@@ -1,10 +1,11 @@
-site_name: trajectory analysis
+site_name: trajectory infrastructure upgrade
 site_description: last update 11.04.2017
 
 pages:
     - Home: index.md
-    - Fundermentals: fundermentals.md
+    - Fundamentals: fundamentals.md
     - Paradigms: paradigms.md
+    - Correspondence: correspondence.md
 theme: readthedocs
 markdown_extensions:
     - pymdownx.github

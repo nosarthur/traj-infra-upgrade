@@ -18,7 +18,7 @@ schrodinger.application.desmond.packages.analysis
 (the new destro)
 ```
 
-## existing analyzers in the new trajectory infrastructure
+## analyzers in the new trajectory infrastructure
 * basic geometric operations
     * `Angle`
     * `Distance`
