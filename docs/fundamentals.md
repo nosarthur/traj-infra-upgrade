@@ -1,3 +1,5 @@
+## introduction
+
 The new trajectory infrastructure will do better with handling
 
 * virtual sites (pseudo atoms)
@@ -6,15 +8,15 @@ The new trajectory infrastructure will do better with handling
 
 Roughly speaking, here are the correspondences:
 
-old | new 
---- | --- 
+old | new
+--- | ---
 `DesmondSimulation` or `ChorusSimulation` object | `Cms` object and trajectory object
 `_DesmondFrame` object | `traj.Frame` object
 `schrodinger.infra.desmond.Trajectory` or `framesettools.Frameset` | python list of `traj.Frame` objects
 
-Note that 
+Note that
 
-* The new frame object is different from the old one. 
+* The new frame object is different from the old one.
 
 ## minimum examples
 
@@ -49,8 +51,11 @@ analyzer2 = analysis.ProtLigInter(msys_model, cms_model, 'protein', 'm.n 2')
 results = analysis.analyze(tr, analyzer1, analyzer2, )
 ```
 
-The `results` is a list of the analyzer's output.
-Each output is a list of results for each trajectory frame.
+The `results` is a list of the analyzers' output.
+In the above example, `results` is a list of 2 items, corresponding to the output of the two analyzers.
+
+The analyzers' output format varies.
+Typically, the output is a list of frame-wise results.
 
 ## atom AIDs and atom GIDs
 

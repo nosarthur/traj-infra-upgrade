@@ -1,6 +1,6 @@
 ## module changes
 
-The modules to be deprecated are
+The following modules are deprecated
 ```python
 schrodinger.trajectory
 schrodinger.infra.desmond
