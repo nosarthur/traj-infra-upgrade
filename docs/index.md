@@ -72,3 +72,5 @@ schrodinger.application.desmond.packages.analysis
 * `SolventAccessibleSurfaceArea`
 * `SolventAccessibleSurfaceAreaByResidue`
 * `VolumeMapper`
+
+In case you want to write customerized analyzer, I can share another document with you.
