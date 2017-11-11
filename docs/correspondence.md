@@ -32,7 +32,7 @@ dt = tr.frame_time(1) - tr.frame_time(0)
 csim = ChorusSimulation(cms_filename, trajectory_directory)
 for frame_index in xrange(csim.total_frame):
     fr = csim.getFrame(frame_index)
-    st = fr.getStructure()</pre> | <pre>
+    st = fr.getStructure()
 ```
 
 new
@@ -59,5 +59,3 @@ updated_cms = topo.update_cms(cms_model, fr)
 ```
 
 The difference is that `update_cms` not only updates full system ct, but also component cts.
-
-
