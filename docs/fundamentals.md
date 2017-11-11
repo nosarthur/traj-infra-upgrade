@@ -69,18 +69,22 @@ Typically, the output is a list of frame-wise results.
 In MD simulation, there are two types of atoms
 
 * physical atoms
-* pseudo atoms (virtual sites): They are used to model forcefield better.
+* pseudo atoms (virtual sites): They have fractional charge and 0 mass. They are used to model forcefield better.
 
 In Maestro, the pseudo atoms are not displayed.
 
 To keep track of the atoms, there are two types of IDs
 
-* AID stands for Atom ID, defined as the atom index in the full system ct (it is the same as `cms_model.atom.index`).
-* GID stands for Global ID, defined as the particle index in the Desmond internal particle array.
+* AID stands for Atom ID, defined as the atom index in the full system ct (it is the same as `cms_model.atom.index`). It starts with 1.
+* GID stands for Global ID, defined as the particle index in the Desmond internal particle array. It starts with 0.
 
-Note that pseudo atoms do not have AID.
+Note that
 
-To access a particle's coordinate in the trajectory (i.e., the `traj.Frame` object), you have to use GID. We have functions to map AID to GID in the `topo` module. For example,
+* pseudo atoms do not have AID.
+* sometimes `AID = GID + 1`, but it is not always the case
+
+To access a particle's coordinate in the trajectory (i.e., the `traj.Frame` object), you have to use GID.
+We have functions to map AID to GID in the `topo` module. For example,
 
 ```python
 import schrodinger.application.desmond.packages.topo as topo
@@ -100,7 +104,7 @@ Both `traj.Frame.pos()` and `traj.Frame.vel()` return Nx3 numpy arrays. Without 
 Note that
 
 * `vel()` may not exist. Default MD simulation does not save velocities, also the XTC format trajectories do not contain velocities.
-* If you get positions this way, then you need to worry about unwrapping around PBC yourself. If you don't want to unwrap yourself, try use the existing mechanisms in the infrastructure. See paradigms below.
+* If you get positions this way, then you need to worry about unwrapping around PBC yourself. If you don't want to unwrap yourself, try use the existing mechanisms in the infrastructure. See [this paradigm](/paradigms/#try-avoid-unwrap-coordinates-around-periodic-boundary-conditions-yourself).
 
 ASL and SMARTS evaluations only return AIDs. In other words, they only select physical atoms.
 

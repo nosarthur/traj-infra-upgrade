@@ -125,6 +125,8 @@ Thus if you are working on a non-desmond repo and uses trajectory stuff, test ha
 
 
 ```python
+import pytest
+
 # Lazy import, in case desmond is not installed
 mf = None
 
