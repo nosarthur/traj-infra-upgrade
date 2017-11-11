@@ -17,6 +17,13 @@ old | new
 Note that
 
 * The new frame object is different from the old one.
+* The following properties and function calls are guaranteed for a frame object
+    * `fr.natoms`
+    * `fr.pos()`
+    * `fr.time`
+    * `fr.box`
+* If the data is dtr, you may be able to pull out more information
+* The function call `fr.vel()` is not guaranteed. XTC data will not have this, dtr data may not have it either.
 
 ## minimum examples
 
