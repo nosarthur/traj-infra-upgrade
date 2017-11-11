@@ -19,6 +19,8 @@ for a in cms_model.atom:
 ligand_aids = cms_model.select_atom(ligand_asl)
 ```
 
+Note that `analyze.evaluate_asl` does not respect PBC whereas `cms_model.select_atom` does.
+
 ## access trajectory
 
 old
@@ -46,7 +48,7 @@ dt = tr[1].time - tr[0].time
 for fr in tr:
     st = topo.update_fsys_ct(cms_model, fr).fsys_ct
     # you can use st = topo.update_fsys_ct(cms_model, fr) as well
-    # the properties of cms_model and its fsys_ct are in sync
+    # since the properties of cms_model and its fsys_ct are in sync
 
 ```
 Note that

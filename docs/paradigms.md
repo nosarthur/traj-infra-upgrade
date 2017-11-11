@@ -16,11 +16,12 @@ except Exception as e:
 
 ## extract structure once and per frame update coordinates instead of per frame update full system ct and extract structure
 Note that although one can get the full system ct per frame in new trajectory infrastructure, it is likely the inefficient approach.
-In most cases, the demand is not to track the full system ct over the frames, but track some specific group of atoms or molecules over the frames.
+In most cases, the user does not need to track the full system ct over the frames.
+Instead, only specific group of atoms or molecules needs to be tracked over the frames.
 In these situations, it is more efficient to
 
-* extract the structure once
-* keep updating the coordinates of the structure frame by frame
+* extract the atoms or molecules into a structure once
+* keep updating (or maybe only read) the coordinates of the selected atoms or molecules frame by frame
 
 If the analysis is fully geometric, then the structure extraction can be avoided as well.
 
