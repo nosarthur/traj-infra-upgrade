@@ -1,4 +1,10 @@
-## load both cms file and trajectory
+## load both cms file and trajectory in case trajectory path is not specified
+
+Ideally, the user should specify the paths for both the cms file and the trajectory file.
+In case the trajectory path is missing, one should make sure
+
+1. the cms file and trajectory file are in the same directory
+1. the `s_chorus_trajectory_file` property in the cms file points to the relative path of the trajectory file
 
 ```python
 import schrodinger.application.desmond.packages.topo as topo
@@ -13,6 +19,16 @@ try:
 except Exception as e:
     parser.error('Cannot load trajectory file: %s' % e)
 ```
+
+For GUI, often times one only needs to get the trajectory path from the cms file path, then the following code can be used
+
+```python
+import schrodinger.application.desmond.packages.topo as topo
+
+trj_path = find_traj_path_from_cms_path(cms_path)
+```
+
+Note one should still check whether `trj_path` is `None` and do `try except` for `traj.read_traj`.
 
 ## extract structure once and per frame update coordinates instead of per frame update full system ct and extract structure
 Note that although one can get the full system ct per frame in new trajectory infrastructure, it is likely the inefficient approach.
