@@ -25,7 +25,7 @@ For GUI, often times one only needs to get the trajectory path from the cms file
 ```python
 import schrodinger.application.desmond.packages.topo as topo
 
-trj_path = find_traj_path_from_cms_path(cms_path)
+trj_path = topo.find_traj_path_from_cms_path(cms_path)
 ```
 
 Note one should still check whether `trj_path` is `None` and do `try except` for `traj.read_traj`.
