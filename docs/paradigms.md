@@ -30,6 +30,18 @@ trj_path = topo.find_traj_path_from_cms_path(cms_path)
 
 Note one should still check whether `trj_path` is `None` and do `try except` for `traj.read_traj`.
 
+Another useful helper function to load both `cms_model` and trajectory is `read_cms_and_traj`
+
+```
+from schrodinger.application.desmond.packages import traj_util
+
+try:
+    _, cms_model, trj = traj_util.read_cms_and_traj(cmsfile)
+except traj_util.TrajectoryUnreadableError as err:
+    print(err)
+    sys.exit(1)
+```
+
 ## extract structure once and per frame update coordinates instead of per frame update full system ct and extract structure
 Note that although one can get the full system ct per frame in new trajectory infrastructure, it is likely the inefficient approach.
 In most cases, the user does not need to track the full system ct over the frames.
