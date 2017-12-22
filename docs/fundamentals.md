@@ -1,11 +1,5 @@
 ## introduction
 
-The new trajectory infrastructure will do better with handling
-
-* virtual sites (pseudo atoms)
-* triclinic lattice
-* unwrapping around periodic boundary condition automatically
-
 Roughly speaking, here are the correspondences:
 
 old | new
@@ -22,12 +16,12 @@ Note that
     * `fr.pos()`
     * `fr.time`
     * `fr.box`
-* If the data is dtr, you may be able to pull out more information
-* The function call `fr.vel()` is not guaranteed. XTC data will not have this, dtr data may not have it either.
+* The function call `fr.vel()` is not guaranteed. XTC data will not have this, DTR data may not have it either.
+* If the data is DTR, you may be able to pull out more (private) information such as `fr._frame().temperature`. Use with your own risk.
 
 ## minimum examples
 
-To read the cms input file
+To read the CMS input file
 ```python
 import schrodinger.application.desmond.packages.topo as topo
 
@@ -99,7 +93,29 @@ for fr in tr:
     fr.pos(protein_gids)
     fr.vel(protein_gids)
 ```
-Both `traj.Frame.pos()` and `traj.Frame.vel()` return Nx3 numpy arrays. Without argument input, they return the positions or velocities of all atoms.
+Both `traj.Frame.pos()` and `traj.Frame.vel()` return Nx3 numpy arrays,
+Without argument input, they return the positions or velocities of all atoms.
+With GIDs input, the order of the output follows the order of the GID input.
+For example 
+
+```
+In [8]: fr0.pos([2,3])
+Out[8]:
+array([[-4.77608204,  3.04622388,  1.31021202],
+       [-5.66208792,  1.88501239,  0.96774006]], dtype=float32)
+
+In [9]: fr0.pos([3,2])
+Out[9]:
+array([[-5.66208792,  1.88501239,  0.96774006],
+       [-4.77608204,  3.04622388,  1.31021202]], dtype=float32)
+```
+
+One can use the GID directly to get the single atom coordinate too
+```
+In [7]: fr0.pos(0)
+Out[7]: array([-0.76461941, -2.64227247, -0.62481445], dtype=float32)
+```
+
 
 Note that
 
@@ -107,5 +123,8 @@ Note that
 * If you get positions this way, then you need to worry about unwrapping around PBC yourself. If you don't want to unwrap yourself, try use the existing mechanisms in the infrastructure. See [this paradigm](/paradigms/#try-avoid-unwrap-coordinates-around-periodic-boundary-conditions-yourself).
 
 ASL and SMARTS evaluations only return AIDs. In other words, they only select physical atoms.
-
-
+There are two helper functions in the topo module to select GIDS:
+```
+topo.asl2gids()
+topo.aids2gids()
+```
