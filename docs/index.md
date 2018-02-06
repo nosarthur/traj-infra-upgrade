@@ -25,17 +25,20 @@ schrodinger.application.desmond.packages.traj
 schrodinger.application.desmond.packages.traj_util
 schrodinger.application.desmond.packages.analysis
 schrodinger.application.desmond.packages.destro
+schrodinger.application.desmond.packages.staf
 ```
 
 * topo: `Cms` object manipulation, GID tracking/conversion
 * traj and traj_util: definition of the new `Frame` object, trajectory read/write
 * analysis: definition of various trajectory analyzers (see below)
-* destro: the maeff class enables low-level mae file IO (try to avoid using it if you can)
+* destro: the maeff class enables low-level mae file IO (try to avoid using it if you can, it bypasses all python-level and swig-level APIs)
+* staf: abstract base classes for trajectory analyzers
 
 ## analyzers in the new trajectory infrastructure
 * basic geometric operations
     * `Angle`
     * `Distance`
+    * `PlanarAngle`
     * `Torsion`
     * `Vector`
 * `CenterOf`

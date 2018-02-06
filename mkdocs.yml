@@ -1,5 +1,5 @@
 site_name: traj infra upgrade
-site_description: last update 12.22.2017
+site_description: last update 02.06.2018
 
 pages:
     - Home: index.md
@@ -10,7 +10,7 @@ theme: readthedocs
 markdown_extensions:
     - pymdownx.github
     - mdx_math:
-        enable_dollar_delimiter: True #for use of inline $..$
+        enable_dollar_delimiter: True # for use of inline $..$
 
 extra_css:
     - extra.css

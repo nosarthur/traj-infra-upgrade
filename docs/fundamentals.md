@@ -1,6 +1,6 @@
 ## introduction
 
-Roughly speaking, here are the correspondences:
+Roughly speaking, here are the correspondences between the old and new infrastructures:
 
 old | new
 --- | ---
@@ -11,9 +11,10 @@ old | new
 Note that
 
 * The new frame object is different from the old one.
+* The new trajectory object is simply a python list of `traj.Frame` objects
 * The following properties and function calls are guaranteed for a frame object
-    * `fr.natoms`
-    * `fr.pos()`
+    * `fr.natoms`: pseudo-atoms are included
+    * `fr.pos()`, `fr.pos(gids)`, `fr.pos(gid)`
     * `fr.time`
     * `fr.box`
 * The function call `fr.vel()` is not guaranteed. XTC data will not have this, DTR data may not have it either.
@@ -74,8 +75,8 @@ To keep track of the atoms, there are two types of IDs
 
 Note that
 
-* pseudo atoms do not have AID.
-* sometimes `AID = GID + 1`, but it is not always the case
+* Pseudo atoms do not have AID.
+* If no pseudo atoms are present, then `AID = GID + 1`. In general, one cannot rely on this.
 
 To access a particle's coordinate in the trajectory (i.e., the `traj.Frame` object), you have to use GID.
 We have functions to map AID to GID in the `topo` module. For example,
