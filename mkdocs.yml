@@ -1,11 +1,12 @@
 site_name: traj infra upgrade
-site_description: last update 02.06.2018
+site_description: last update 02.16.2018
 
 pages:
     - Home: index.md
     - Fundamentals: fundamentals.md
     - Paradigms: paradigms.md
     - Correspondence: correspondence.md
+    - Customized analyzers: custom-analyzer.md
 theme: readthedocs
 markdown_extensions:
     - pymdownx.github

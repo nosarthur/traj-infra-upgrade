@@ -22,12 +22,30 @@ Note that
 
 ## minimum examples
 
-To read the CMS input file
+The CMS files contain structures for MD related workflows.
+The first structure is the full system CT used for Maestro display.
+The rest are component CTs.
+
+There are three ways to read a CMS file
+
+```python
+import schrodinger.structure as structure
+st_reader = structure.StructureReader('example-out.cms')
+cts = list(st_reader)
+```
+
+```python
+from schrodinger.application.desmond.cms import Cms
+cms_model = Cms('example-out.cms')
+```
+
 ```python
 import schrodinger.application.desmond.packages.topo as topo
-
-msys_model, cms_model = topo.read_cms(cms_file_name)
+msys_model, cms_model = topo.read_cms('example-out.cms')
 ```
+
+The loading speed decreases for the latter methods. But more information becomes available in the latter methods as well.
+For trajectory analysis, the third method is the preferred one as often times an `msys_model` is needed for trajectory analysis.
 
 To read a trajectory
 ```python
@@ -35,6 +53,8 @@ import schrodinger.application.desmond.packages.traj as traj
 
 tr = traj.read_traj(trajectory_directory)
 ```
+
+Here `tr` is simply a python list of trajectory `Frame` objects.
 
 To do some analysis using existing analyzers
 

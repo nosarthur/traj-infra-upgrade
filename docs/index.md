@@ -1,10 +1,12 @@
 ## highlights
 
-Compared to the old trajectory infrastructure, the new one perform better (faster, more robust) in the following aspects
+Compared to the old trajectory infrastructure, the new one performs better in the following aspects
 
 * tracking virtual sites (pseudo atoms)
 * handling triclinic systems and orthorhombic systems whose primitive cell vectors do not align with the axes
 * unwrapping coordinates around periodic boundary condition (automatically or manually)
+
+It is also made more robust and faster.
 
 ## module changes
 
