@@ -4,7 +4,7 @@
 This section is for developers who want to write customized trajectory analyzers.
 It can be skipped if you are satisfied as a user of the existing analyzers.
 
-The main reason for writing one's own analyzer is code decoupling.
+The main reason to write customized analyzer is code decoupling.
 
 As an introductory example, let's filter a trajectory according to a user
 selected distance cutoff between two atoms.
@@ -47,22 +47,25 @@ out_tr = analysis.analyze(tr, spliter)
 
 ## design
 
-At high level, the trajectory analysis process can be summarized by the following pseudo-code
+At high level, the trajectory analysis process is as follows.
 
 ``` python
 calc = GeomCalc()
 
 # each analyzer is an instance of a derived class of GeomAnalyzerBase
-for ana in analyzers:
+for ana in analyzers:  # both static and dynamic analyzers
     # inside these _precalc() functions, elementary calculations are registered to
     # calc._custom which is a _CustomCalc object
     # these results are cached and shared among analyzers
     ana._precalc(calc)
 
 for fr in tr:
-    # registered elementary calculations are performed by this call
-    calc()
-    # further analyzer specific calculations
+    # perform per-frame initialization for dynamic analyzers
+    for ana in dynamic_analyzers:
+        ana._dyncalc(fr)
+    # perform registered elementary calculations
+    calc(fr)
+    # perform further analyzer specific calculations
     for ana in analyzers:
         ana._postcalc(calc, fr)
 
