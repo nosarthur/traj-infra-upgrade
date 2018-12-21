@@ -1,12 +1,13 @@
 ## highlights
 
-Compared to the old trajectory infrastructure, the new one performs better in the following aspects
+Compared to the old trajectory infrastructure,
+the new one performs better in the following aspects
 
-* tracking virtual sites (pseudo atoms)
-* handling triclinic systems and orthorhombic systems whose primitive cell vectors do not align with the axes
-* unwrapping coordinates around periodic boundary condition (automatically or manually)
-
-It is also made more robust and faster.
+* virtual sites (pseudo atoms) tracking
+* support for triclinic systems and orthorhombic systems
+* coordinates unwrapping around periodic boundary condition (PBC)
+  either automatically or manually
+* various bug fixes and speedup
 
 ## module changes
 
@@ -30,20 +31,21 @@ schrodinger.application.desmond.packages.destro
 schrodinger.application.desmond.packages.staf
 ```
 
-* topo: `Cms` object manipulation, GID tracking/conversion
-* traj and traj_util: definition of the new `Frame` object, trajectory read/write
-* analysis: definition of various trajectory analyzers (see below)
-* destro: the maeff class enables low-level mae file IO (try to avoid using it if you can, it bypasses all python-level and swig-level APIs)
-* staf: abstract base classes for trajectory analyzers
+* **topo**: `Cms` object manipulation, AID/GID conversion
+* **traj** and **traj_util**: definition of the new trajectory `Frame`, trajectory read/write
+* **analysis**: definition of various trajectory analyzers (see below)
+* **destro**: the maeff class enables low-level mae file IO (try to avoid using it if you can, it bypasses all python-level and swig-level APIs)
+* **staf**: abstract base classes for trajectory analyzers
 
 ## analyzers in the new trajectory infrastructure
+
 * basic geometric operations
     * `Angle`
     * `Distance`
     * `PlanarAngle`
-    * `Torsion`
+    * `Torsion`: dihedral angle
     * `Vector`
-* `CenterOf`
+* `CenterOf`: weighted geometric center of a group of atoms (PBC aware)
     * `Centroid`
     * `CoC`: center of charge
     * `Com`: center of mass
@@ -65,7 +67,7 @@ schrodinger.application.desmond.packages.staf
         * `SmartsDirector`
         * `SystemDipoleDirector`
 * `PolarSurfaceArea`
-* `PosAlign`: align positions
+* `PosAlign`: position alignment
     * `RMSD`: Root mean square deviation
         * `LigandRMSD`: further includes symmetry consideration
     * `RMSF`: Root mean square fluctuation
@@ -73,13 +75,13 @@ schrodinger.application.desmond.packages.staf
     * ~~`CovarianceMatrix`~~
 * `PosTrack`: track positions of selected atoms in a trajectory
 * `ProtLigInter`: Protein-ligand interactions
-    * `HydrophobicInter`, `_HydrophobicInter
+    * `HydrophobicInter`
     * `MetalInter`
     * `ProtLigHbondInter`
     * `ProtLigPiInter`
-    * `ProtLigPolarInter`, `_ProtLigPolarInter`
+    * `ProtLigPolarInter`
     * `WaterBridges`
-    * `WatLigFragDistance`, `_WatLigFragDistance`
+    * `WatLigFragDistance`
 * `ProtProtInter`: Protein-protein interactions
     * `ProtProtHbondInter`
     * `ProtProtPiInter`
@@ -92,4 +94,3 @@ schrodinger.application.desmond.packages.staf
 * `SolventAccessibleSurfaceAreaByResidue`
 * `VolumeMapper`
 
-In case you want to write customerized analyzer, I can share another document with you.
